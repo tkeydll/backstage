@@ -1,0 +1,25 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{ values.name }}
+  description: ${{ values.description }}
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+    azure.com/subscription-id: ${{ values.subscriptionId }}
+    azure.com/resource-group: ${{ values.resourceGroupName }}
+    azure.com/storage-account-name: ${{ values.name }}
+  tags:
+    - azure
+    - storage
+    - blob
+  links:
+    - url: https://portal.azure.com/#@/resource/subscriptions/${{ values.subscriptionId }}/resourceGroups/${{ values.resourceGroupName }}/providers/Microsoft.Storage/storageAccounts/${{ values.name }}
+      title: Azure Portal
+      icon: dashboard
+spec:
+  type: azure-resource
+  owner: ${{ values.owner }}
+  lifecycle: production
+  providesApis: []
+  consumesApis: []
+  dependsOn: []

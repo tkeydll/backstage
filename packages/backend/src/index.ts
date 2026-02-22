@@ -53,6 +53,7 @@ backend.add(import('@backstage/plugin-scaffolder-backend-module-github'));
 backend.add(
   import('@backstage/plugin-scaffolder-backend-module-notifications'),
 );
+backend.add(import('./azureScaffolderModule'));
 backend.add(
   import('@backstage/plugin-catalog-backend-module-backstage-openapi'),
 );

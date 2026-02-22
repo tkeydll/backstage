@@ -1,6 +1,8 @@
 app:
   title: Backstage Example App
   baseUrl: http://localhost:3000
+  listen:
+    host: 127.0.0.1
   packages: all # ✨
 
   #datadogRum:
@@ -93,6 +95,8 @@ techdocs:
 integrations:
   github:
     - host: github.com
+      # This is a Personal Access Token or App token that allows Backstage to read data from GitHub API.
+      # Read more on how to generate on here: https://backstage.io/docs/getting-started/configuration#setting-up-a-github-integration
       token: ${GITHUB_TOKEN}
   ### Example for how to add your GitHub Enterprise instance using the API:
   # - host: ghe.example.net
@@ -197,6 +201,34 @@ catalog:
       target: ../../plugins/scaffolder-backend/sample-templates/all-templates.yaml
       rules:
         - allow: [Template]
+    # SORACOM Button Azure Functions component
+    - type: file
+      target: /app/contrib/catalog/soracom-button-azure-functions.yaml
+    # Azure Web App Template
+    - type: file
+      target: ../../templates/azure-web-app/template.yaml
+      rules:
+        - allow: [Template]
+    # Azure Storage Account Template
+    - type: file
+      target: ../../templates/azure-storage-account/template.yaml
+      rules:
+        - allow: [Template]
+    # Azure Web App Bicep Template
+    - type: file
+      target: /app/contrib/scaffolder-templates/azure-webapp-bicep/template.yaml
+      rules:
+        - allow: [Template]
+    # vf-intern-arm-template: Azure Functions
+    - type: file
+      target: ../../contrib/scaffolder-templates/vf-intern-arm-template/functions/template.yaml
+      rules:
+        - allow: [Template]
+    # vf-intern-arm-template: Web App for Containers
+    - type: file
+      target: ../../contrib/scaffolder-templates/vf-intern-arm-template/webapp_for_containers/template.yaml
+      rules:
+        - allow: [Template]
 
 scaffolder:
   auditor:
@@ -228,15 +260,14 @@ auth:
   # session:
   #   secret: custom session secret
   providers:
+    github:
+      development:
+        clientId: ${AUTH_GITHUB_CLIENT_ID:-Iv23lic6tXZzpAgmBsmB}
+        clientSecret: ${AUTH_GITHUB_CLIENT_SECRET:-f179f78ae6e65176aea9e593f0cecc0e39e70c67}
     google:
       development:
         clientId: ${AUTH_GOOGLE_CLIENT_ID}
         clientSecret: ${AUTH_GOOGLE_CLIENT_SECRET}
-    github:
-      development:
-        clientId: ${AUTH_GITHUB_CLIENT_ID}
-        clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
-        enterpriseInstanceUrl: ${AUTH_GITHUB_ENTERPRISE_INSTANCE_URL}
     gitlab:
       development:
         clientId: ${AUTH_GITLAB_CLIENT_ID}

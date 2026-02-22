@@ -1656,6 +1656,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@azure/arm-resources@npm:^5.2.0":
+  version: 5.2.0
+  resolution: "@azure/arm-resources@npm:5.2.0"
+  dependencies:
+    "@azure/abort-controller": "npm:^1.0.0"
+    "@azure/core-auth": "npm:^1.3.0"
+    "@azure/core-client": "npm:^1.7.0"
+    "@azure/core-lro": "npm:^2.5.0"
+    "@azure/core-paging": "npm:^1.2.0"
+    "@azure/core-rest-pipeline": "npm:^1.8.0"
+    tslib: "npm:^2.2.0"
+  checksum: 10/98fd57e82d6be7b4ff8bf1dff96dfd8264a369d6c9d3271b3c846bbd263893f7c9f196375d51d561d6319e359e9faa92ca7510daf7a87830745b507c5346fc8f
+  languageName: node
+  linkType: hard
+
 "@azure/communication-common@npm:^2.2.0":
   version: 2.3.1
   resolution: "@azure/communication-common@npm:2.3.1"
@@ -1688,6 +1703,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@azure/core-auth@npm:^1.10.0, @azure/core-auth@npm:^1.9.0":
+  version: 1.10.1
+  resolution: "@azure/core-auth@npm:1.10.1"
+  dependencies:
+    "@azure/abort-controller": "npm:^2.1.2"
+    "@azure/core-util": "npm:^1.13.0"
+    tslib: "npm:^2.6.2"
+  checksum: 10/230c1766d4cb3ac7beac45db65bd5e493e1530f6f1d51dc0fd3537f8144e5c9acfed94700fd28c7aee67bab7502e23a1588adc6aa76f918f08fe40b3b007e2a3
+  languageName: node
+  linkType: hard
+
 "@azure/core-auth@npm:^1.3.0, @azure/core-auth@npm:^1.4.0, @azure/core-auth@npm:^1.5.0, @azure/core-auth@npm:^1.8.0":
   version: 1.9.0
   resolution: "@azure/core-auth@npm:1.9.0"
@@ -1711,6 +1737,21 @@ __metadata:
     "@azure/logger": "npm:^1.0.0"
     tslib: "npm:^2.6.2"
   checksum: 10/0358b8245bf23943914eb77384955c994bf3ef84f862234cb3e261f9c602a9f4717beedafd48d1da902b15f3464a4211540976fabb4569039fac8e0d41e59ef1
+  languageName: node
+  linkType: hard
+
+"@azure/core-client@npm:^1.7.0":
+  version: 1.10.1
+  resolution: "@azure/core-client@npm:1.10.1"
+  dependencies:
+    "@azure/abort-controller": "npm:^2.1.2"
+    "@azure/core-auth": "npm:^1.10.0"
+    "@azure/core-rest-pipeline": "npm:^1.22.0"
+    "@azure/core-tracing": "npm:^1.3.0"
+    "@azure/core-util": "npm:^1.13.0"
+    "@azure/logger": "npm:^1.3.0"
+    tslib: "npm:^2.6.2"
+  checksum: 10/4a00ec0d11f92274bb79efdea2515a7947b8cfb34cff6570a0813ea2889ab57ddc1f22f232192dee8f918e04ba96de07b7584bf9cbcac03e17cb39e9e399c2e9
   languageName: node
   linkType: hard
 
@@ -1746,6 +1787,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@azure/core-paging@npm:^1.2.0":
+  version: 1.6.2
+  resolution: "@azure/core-paging@npm:1.6.2"
+  dependencies:
+    tslib: "npm:^2.6.2"
+  checksum: 10/fb1d4c4fcd5705dbcd2332724d0ead324b988a874bfe739483cf65056b8ad5567aaa5ae02f4d0467c71c3be035bbd15682fe0d8f6e47043a66903d439593f5b8
+  languageName: node
+  linkType: hard
+
 "@azure/core-rest-pipeline@npm:^1.1.0, @azure/core-rest-pipeline@npm:^1.10.1, @azure/core-rest-pipeline@npm:^1.3.0, @azure/core-rest-pipeline@npm:^1.3.2, @azure/core-rest-pipeline@npm:^1.8.0, @azure/core-rest-pipeline@npm:^1.9.1":
   version: 1.19.0
   resolution: "@azure/core-rest-pipeline@npm:1.19.0"
@@ -1762,12 +1812,36 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@azure/core-rest-pipeline@npm:^1.17.0, @azure/core-rest-pipeline@npm:^1.22.0":
+  version: 1.22.2
+  resolution: "@azure/core-rest-pipeline@npm:1.22.2"
+  dependencies:
+    "@azure/abort-controller": "npm:^2.1.2"
+    "@azure/core-auth": "npm:^1.10.0"
+    "@azure/core-tracing": "npm:^1.3.0"
+    "@azure/core-util": "npm:^1.13.0"
+    "@azure/logger": "npm:^1.3.0"
+    "@typespec/ts-http-runtime": "npm:^0.3.0"
+    tslib: "npm:^2.6.2"
+  checksum: 10/3164869c5d169af5b3c1b0ae40e661ce641f834ec9e03c70aba6700381d9087929b5a278ae5144fd2a9ac4dcdffb3e60b76727470769566137c22fc4950810b6
+  languageName: node
+  linkType: hard
+
 "@azure/core-tracing@npm:^1.0.0, @azure/core-tracing@npm:^1.0.1, @azure/core-tracing@npm:^1.1.2":
   version: 1.1.2
   resolution: "@azure/core-tracing@npm:1.1.2"
   dependencies:
     tslib: "npm:^2.6.2"
   checksum: 10/027ab8f6ed0ed859a3999dd192faf7286b6e1da8887852a61150c1cf9fc29dbde95bcaa510ee5138e416e9c026cd177b69b7e2c83a8ec0a9758caba412f5368d
+  languageName: node
+  linkType: hard
+
+"@azure/core-tracing@npm:^1.3.0":
+  version: 1.3.1
+  resolution: "@azure/core-tracing@npm:1.3.1"
+  dependencies:
+    tslib: "npm:^2.6.2"
+  checksum: 10/7ef179e0ceb58c76d99c22bb5c5faade6fceaa62a265dcdaf09456e979be716e0249bb952d8000b9502b2194aeccb01454d60b497d4a18755e933cf7b1df919d
   languageName: node
   linkType: hard
 
@@ -1778,6 +1852,17 @@ __metadata:
     "@azure/abort-controller": "npm:^2.0.0"
     tslib: "npm:^2.6.2"
   checksum: 10/16d39f4ed9e224c190f0ffcb040b4f0a9723946b4312784a7a2a227cf2c56cd68328ce28fa05d1109c2e88bb5b34af159264c854e876f182461976a65fa1b5e5
+  languageName: node
+  linkType: hard
+
+"@azure/core-util@npm:^1.13.0":
+  version: 1.13.1
+  resolution: "@azure/core-util@npm:1.13.1"
+  dependencies:
+    "@azure/abort-controller": "npm:^2.1.2"
+    "@typespec/ts-http-runtime": "npm:^0.3.0"
+    tslib: "npm:^2.6.2"
+  checksum: 10/81ba529bed2fb615836be9425608e012f9bd243881f861c7ac086ea618c5f91129d3088216eee588323ffc3dfc0013706069830c03810f8a0f4591553ef5843b
   languageName: node
   linkType: hard
 
@@ -1813,6 +1898,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@azure/identity@npm:^4.13.0":
+  version: 4.13.0
+  resolution: "@azure/identity@npm:4.13.0"
+  dependencies:
+    "@azure/abort-controller": "npm:^2.0.0"
+    "@azure/core-auth": "npm:^1.9.0"
+    "@azure/core-client": "npm:^1.9.2"
+    "@azure/core-rest-pipeline": "npm:^1.17.0"
+    "@azure/core-tracing": "npm:^1.0.0"
+    "@azure/core-util": "npm:^1.11.0"
+    "@azure/logger": "npm:^1.0.0"
+    "@azure/msal-browser": "npm:^4.2.0"
+    "@azure/msal-node": "npm:^3.5.0"
+    open: "npm:^10.1.0"
+    tslib: "npm:^2.2.0"
+  checksum: 10/8b97154ac85bb33abc0216ac7f45f41ccebaa8516db2173fbe029bbdd6c4dd227a83d7a6da6bb51c28b9189944a26cf6322bc52d79cbe4e75389e74266abc4b0
+  languageName: node
+  linkType: hard
+
 "@azure/logger@npm:^1.0.0":
   version: 1.0.1
   resolution: "@azure/logger@npm:1.0.1"
@@ -1822,12 +1926,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@azure/logger@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "@azure/logger@npm:1.3.0"
+  dependencies:
+    "@typespec/ts-http-runtime": "npm:^0.3.0"
+    tslib: "npm:^2.6.2"
+  checksum: 10/7df11bf3b4952207d7355fde3cee223df2e4a64eaafff05a1fcbcb5c870350f1ef726866b771a7520b0e2bb33bfa9c96415b823c4b74e04ad4b755e961634528
+  languageName: node
+  linkType: hard
+
 "@azure/msal-browser@npm:^3.11.1":
   version: 3.11.1
   resolution: "@azure/msal-browser@npm:3.11.1"
   dependencies:
     "@azure/msal-common": "npm:14.8.1"
   checksum: 10/84534d43f776ea3608bd3b533e128b32e2907876211822d8dfb9bf5bc3e1fffcee62a9a970138c45306fa4b05432b1fcd5abbe122e7d63c7875e0a2a177f4584
+  languageName: node
+  linkType: hard
+
+"@azure/msal-browser@npm:^4.2.0":
+  version: 4.28.2
+  resolution: "@azure/msal-browser@npm:4.28.2"
+  dependencies:
+    "@azure/msal-common": "npm:15.14.2"
+  checksum: 10/4f5ad4918cb45a1863c71f5185b2518bc2d4007aa513cc0abc26da55b513be24028a3cf58dd54fccccbe320ddd839b871a9f71a7b4d2bfb9c799396a00c18cbf
   languageName: node
   linkType: hard
 
@@ -1845,6 +1968,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@azure/msal-common@npm:15.14.2":
+  version: 15.14.2
+  resolution: "@azure/msal-common@npm:15.14.2"
+  checksum: 10/665750005a21068922d7f75557004921828060593e32e102ca137288aff4f65239c7a71ff132696a1526bdf8305ae148c720eb8136017eab4b75b0da86079f01
+  languageName: node
+  linkType: hard
+
 "@azure/msal-node@npm:^2.9.2":
   version: 2.9.2
   resolution: "@azure/msal-node@npm:2.9.2"
@@ -1853,6 +1983,17 @@ __metadata:
     jsonwebtoken: "npm:^9.0.0"
     uuid: "npm:^8.3.0"
   checksum: 10/0cbaa209291a300515ab94883b9920ba7fa66b11e34428214e46384c3ab12c6e159904ed0a3190e2babf6509780f855f8c4345c07af9bafca0a94d68ff838ba5
+  languageName: node
+  linkType: hard
+
+"@azure/msal-node@npm:^3.5.0":
+  version: 3.8.7
+  resolution: "@azure/msal-node@npm:3.8.7"
+  dependencies:
+    "@azure/msal-common": "npm:15.14.2"
+    jsonwebtoken: "npm:^9.0.0"
+    uuid: "npm:^8.3.0"
+  checksum: 10/3391b9bbe4f60ef5e1379abd268d92f2c03329bfe050ad99ccb32f6fbe8c68ea64534e4c9c3671da2f168e5a90b28d856fede06a6b9fa104d524e956a157f43f
   languageName: node
   linkType: hard
 
@@ -20019,7 +20160,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/fs-extra@npm:^11.0.0":
+"@types/fs-extra@npm:^11.0.0, @types/fs-extra@npm:^11.0.4":
   version: 11.0.4
   resolution: "@types/fs-extra@npm:11.0.4"
   dependencies:
@@ -21665,6 +21806,17 @@ __metadata:
     "@typescript-eslint/types": "npm:8.35.0"
     eslint-visitor-keys: "npm:^4.2.1"
   checksum: 10/c0acb13aac3a2be5e82844f7d2e86137347efdd04661dbf9fa69ef04a19dd2f1eb2f1eb6bfbfbaada78a46884308d2c0e0b5d0d1a094c84f2dfb670b67ac2b3b
+  languageName: node
+  linkType: hard
+
+"@typespec/ts-http-runtime@npm:^0.3.0":
+  version: 0.3.3
+  resolution: "@typespec/ts-http-runtime@npm:0.3.3"
+  dependencies:
+    http-proxy-agent: "npm:^7.0.0"
+    https-proxy-agent: "npm:^7.0.0"
+    tslib: "npm:^2.6.2"
+  checksum: 10/f5e2f63e53296c25cf7651f81326e8dccdc861355f12d603387dca4c398c718abe85fb36678c60fe52d95413fae9389c37ed553a1aed0c510d2e1f4efeffc76c
   languageName: node
   linkType: hard
 
@@ -29751,6 +29903,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "example-backend@workspace:packages/backend"
   dependencies:
+    "@azure/arm-resources": "npm:^5.2.0"
+    "@azure/identity": "npm:^4.13.0"
     "@backstage/backend-defaults": "workspace:^"
     "@backstage/backend-plugin-api": "workspace:^"
     "@backstage/catalog-model": "workspace:^"
@@ -29778,6 +29932,7 @@ __metadata:
     "@backstage/plugin-permission-node": "workspace:^"
     "@backstage/plugin-proxy-backend": "workspace:^"
     "@backstage/plugin-scaffolder-backend": "workspace:^"
+    "@backstage/plugin-scaffolder-backend-module-azure": "workspace:^"
     "@backstage/plugin-scaffolder-backend-module-github": "workspace:^"
     "@backstage/plugin-scaffolder-backend-module-notifications": "workspace:^"
     "@backstage/plugin-search-backend": "workspace:^"
@@ -29790,7 +29945,9 @@ __metadata:
     "@opentelemetry/auto-instrumentations-node": "npm:^0.61.0"
     "@opentelemetry/exporter-prometheus": "npm:^0.54.0"
     "@opentelemetry/sdk-node": "npm:^0.54.0"
+    "@types/fs-extra": "npm:^11.0.4"
     example-app: "link:../app"
+    fs-extra: "npm:^11.3.3"
   languageName: unknown
   linkType: soft
 
@@ -30975,6 +31132,17 @@ __metadata:
     jsonfile: "npm:^6.0.1"
     universalify: "npm:^2.0.0"
   checksum: 10/2b893213411b1da11f9b061ccb0bcff4d6dd66fe90aa8f5b1616219a5e7ca659da869f454ebd8e94aa21c58342730fb43a2e5c98b5c6c5124f0c54a4633f64b0
+  languageName: node
+  linkType: hard
+
+"fs-extra@npm:^11.3.3":
+  version: 11.3.3
+  resolution: "fs-extra@npm:11.3.3"
+  dependencies:
+    graceful-fs: "npm:^4.2.0"
+    jsonfile: "npm:^6.0.1"
+    universalify: "npm:^2.0.0"
+  checksum: 10/daeaefafbebe8fa6efd2fb96fc926f2c952be5877811f00a6794f0d64e0128e3d0d93368cd328f8f063b45deacf385c40e3d931aa46014245431cd2f4f89c67a
   languageName: node
   linkType: hard
 
@@ -39586,6 +39754,18 @@ __metadata:
     is-inside-container: "npm:^1.0.0"
     is-wsl: "npm:^3.1.0"
   checksum: 10/4dc757ad1d3d63490822f991e9cbe3a7c05b7249fca2eaa571cb7d191e5cec88bc37e15d8ef4fd740d8989a288b661d8da253caa8d98e8c97430ddbbb0ae4ed1
+  languageName: node
+  linkType: hard
+
+"open@npm:^10.1.0":
+  version: 10.2.0
+  resolution: "open@npm:10.2.0"
+  dependencies:
+    default-browser: "npm:^5.2.1"
+    define-lazy-prop: "npm:^3.0.0"
+    is-inside-container: "npm:^1.0.0"
+    wsl-utils: "npm:^0.1.0"
+  checksum: 10/e6ad9474734eac3549dcc7d85e952394856ccaee48107c453bd6a725b82e3b8ed5f427658935df27efa76b411aeef62888edea8a9e347e8e7c82632ec966b30e
   languageName: node
   linkType: hard
 
@@ -49448,6 +49628,15 @@ __metadata:
     utf-8-validate:
       optional: true
   checksum: 10/9c796b84ba80ffc2c2adcdfc9c8e9a219ba99caa435c9a8d45f9ac593bba325563b3f83edc5eb067cc6d21b9a6bf2c930adf76dd40af5f58a5ca6859e81858f0
+  languageName: node
+  linkType: hard
+
+"wsl-utils@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "wsl-utils@npm:0.1.0"
+  dependencies:
+    is-wsl: "npm:^3.1.0"
+  checksum: 10/de4c92187e04c3c27b4478f410a02e81c351dc85efa3447bf1666f34fc80baacd890a6698ec91995631714086992036013286aea3d77e6974020d40a08e00aec
   languageName: node
   linkType: hard
 

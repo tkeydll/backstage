@@ -1,0 +1,231 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: vf-intern-azure-functions
+  title: Azure Functions デプロイ (vf-intern)
+  description: |
+    vf-intern-arm-template を使って Azure Functions をARMテンプレートでデプロイします。
+    ストレージアカウント・App Service Plan・Function App が作成されます。
+  tags:
+    - azure
+    - arm
+    - functions
+    - serverless
+  links:
+    - url: https://github.com/tkeydll/vf-intern-arm-template/tree/master/functions
+      title: テンプレートのソース
+      icon: github
+spec:
+  owner: user:guest
+  type: infrastructure
+
+  parameters:
+    - title: Azureリソースの設定
+      required:
+        - subscriptionId
+        - resourceGroupName
+        - location
+        - appName
+      properties:
+        subscriptionId:
+          title: サブスクリプションID
+          type: string
+          description: AzureサブスクリプションのID
+        resourceGroupName:
+          title: リソースグループ名
+          type: string
+          description: デプロイ先のリソースグループ名（存在しない場合は自動作成）
+          pattern: '^[a-zA-Z0-9._\-()]+$'
+        location:
+          title: リージョン
+          type: string
+          description: Azureのデプロイ先リージョン
+          default: japaneast
+          enum:
+            - japaneast
+            - japanwest
+            - eastus
+            - westus2
+            - westeurope
+          enumNames:
+            - 'Japan East（東日本）'
+            - 'Japan West（西日本）'
+            - 'East US（米国東部）'
+            - 'West US 2（米国西部2）'
+            - 'West Europe（西ヨーロッパ）'
+        appName:
+          title: アプリ名
+          type: string
+          description: Azure Functions アプリの名前（グローバルで一意にしてね！）
+          pattern: '^[a-z0-9-]+$'
+          default: vf-intern-function
+
+    - title: Azure Functions 詳細設定
+      properties:
+        sku:
+          title: App Service Plan SKU
+          type: string
+          description: ホスティングプランの価格レベル
+          default: Free
+          enum:
+            - Free
+            - Shared
+            - Basic
+            - Standard
+          enumNames:
+            - '無料（Free）'
+            - '共有（Shared）'
+            - 'ベーシック（Basic）'
+            - 'スタンダード（Standard）'
+        workerSize:
+          title: インスタンスサイズ
+          type: string
+          description: ホスティングプランのインスタンスサイズ
+          default: '0'
+          enum:
+            - '0'
+            - '1'
+            - '2'
+          enumNames:
+            - 'スモール（0）'
+            - 'ミディアム（1）'
+            - 'ラージ（2）'
+        storageAccountType:
+          title: ストレージアカウントタイプ
+          type: string
+          description: Function App 用ストレージアカウントのタイプ
+          default: Standard_LRS
+          enum:
+            - Standard_LRS
+            - Standard_GRS
+            - Standard_ZRS
+            - Premium_LRS
+          enumNames:
+            - 'Standard LRS（ローカル冗長）'
+            - 'Standard GRS（geo冗長）'
+            - 'Standard ZRS（ゾーン冗長）'
+            - 'Premium LRS（プレミアムローカル冗長）'
+        repoURL:
+          title: デプロイするGitHubリポジトリのURL
+          type: string
+          description: Function App にデプロイするコードのGitHubリポジトリ
+          default: 'https://github.com/tkeydll/azure-storageaccount-io-function'
+        branch:
+          title: ブランチ名
+          type: string
+          description: デプロイするブランチ名
+          default: master
+
+  steps:
+    - id: deploy-arm
+      name: ARM テンプレートをデプロイ
+      action: azure:arm:deploy
+      input:
+        subscriptionId: ${{ parameters.subscriptionId }}
+        resourceGroupName: ${{ parameters.resourceGroupName }}
+        location: ${{ parameters.location }}
+        deploymentName: backstage-functions-${{ parameters.appName }}-${{ '' | now | date('X') }}
+        template:
+          $schema: 'http://schemas.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#'
+          contentVersion: '1.0.0.0'
+          parameters:
+            appName:
+              type: string
+            sku:
+              type: string
+              defaultValue: Free
+            workerSize:
+              type: string
+              defaultValue: '0'
+            storageAccountType:
+              type: string
+              defaultValue: Standard_LRS
+            repoURL:
+              type: string
+            branch:
+              type: string
+              defaultValue: master
+            location:
+              type: string
+              defaultValue: '[resourceGroup().location]'
+          variables:
+            functionAppName: '[parameters(''appName'')]'
+            hostingPlanName: '[concat(parameters(''appName''), ''-plan'')]'
+            storageAccountName: '[concat(uniquestring(resourceGroup().id), ''functions'')]'
+          resources:
+            - type: Microsoft.Storage/storageAccounts
+              name: '[variables(''storageAccountName'')]'
+              apiVersion: '2015-06-15'
+              location: '[parameters(''location'')]'
+              properties:
+                accountType: '[parameters(''storageAccountType'')]'
+            - type: Microsoft.Web/serverfarms
+              apiVersion: '2015-04-01'
+              name: '[variables(''hostingPlanName'')]'
+              location: '[parameters(''location'')]'
+              properties:
+                name: '[variables(''hostingPlanName'')]'
+                sku: '[parameters(''sku'')]'
+                workerSize: '[parameters(''workerSize'')]'
+                hostingEnvironment: ''
+                numberOfWorkers: 1
+            - type: Microsoft.Web/sites
+              apiVersion: '2015-08-01'
+              name: '[variables(''functionAppName'')]'
+              location: '[parameters(''location'')]'
+              kind: functionapp
+              dependsOn:
+                - '[resourceId(''Microsoft.Web/serverfarms'', variables(''hostingPlanName''))]'
+                - '[resourceId(''Microsoft.Storage/storageAccounts'', variables(''storageAccountName''))]'
+              properties:
+                name: '[variables(''functionAppName'')]'
+                serverFarmId: '[resourceId(''Microsoft.Web/serverfarms'', variables(''hostingPlanName''))]'
+                hostingEnvironment: ''
+                clientAffinityEnabled: false
+                siteConfig:
+                  alwaysOn: false
+                  appSettings:
+                    - name: FUNCTIONS_EXTENSION_VERSION
+                      value: '~1'
+                    - name: AzureWebJobsStorage
+                      value: '[concat(''DefaultEndpointsProtocol=https;AccountName='',variables(''storageAccountName''),'';AccountKey='',listkeys(resourceId(''Microsoft.Storage/storageAccounts'', variables(''storageAccountName'')),''2015-05-01-preview'').key1,'';'')]'
+              resources:
+                - apiVersion: '2015-08-01'
+                  name: web
+                  type: sourcecontrols
+                  dependsOn:
+                    - '[resourceId(''Microsoft.Web/Sites'', variables(''functionAppName''))]'
+                  properties:
+                    RepoUrl: '[parameters(''repoURL'')]'
+                    branch: '[parameters(''branch'')]'
+                    IsManualIntegration: true
+        parameters:
+          appName:
+            value: ${{ parameters.appName }}
+          sku:
+            value: ${{ parameters.sku }}
+          workerSize:
+            value: '${{ parameters.workerSize }}'
+          storageAccountType:
+            value: ${{ parameters.storageAccountType }}
+          repoURL:
+            value: ${{ parameters.repoURL }}
+          branch:
+            value: ${{ parameters.branch }}
+          location:
+            value: ${{ parameters.location }}
+
+  output:
+    text:
+      - title: デプロイ結果
+        content: |
+          ## Azure Functions デプロイ完了！🎉
+
+          - **アプリ名**: ${{ parameters.appName }}
+          - **リソースグループ**: ${{ parameters.resourceGroupName }}
+          - **リージョン**: ${{ parameters.location }}
+          - **デプロイ状態**: ${{ steps['deploy-arm'].output.provisioningState }}
+    links:
+      - title: Azure Portal でリソースグループを確認
+        url: https://portal.azure.com/#resource/subscriptions/${{ parameters.subscriptionId }}/resourceGroups/${{ parameters.resourceGroupName }}/overview
+        icon: dashboard

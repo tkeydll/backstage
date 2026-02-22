@@ -1,9 +1,35 @@
+# Git and version control
 .git
-.yarn/cache
-.yarn/install-state.gz
+.gitignore
+.github
+
+# Documentation and microsite
 docs
 microsite
+README*.md
+*.md
+
+# Build outputs and temporary files
+dist-types
 node_modules
-packages/*/src
+packages/*/dist
 packages/*/node_modules
-plugins
+plugins/*/dist
+plugins/*/node_modules
+.yarn/cache
+.yarn/install-state.gz
+
+# Development and local files
+.env*
+*.local.yaml
+.vscode
+.idea
+
+# Test and coverage files
+coverage
+.nyc_output
+*.log
+
+# OS specific files
+.DS_Store
+Thumbs.db

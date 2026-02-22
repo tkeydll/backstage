@@ -1,0 +1,34 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: soracom-button-azure-functions
+  title: SORACOM Button Azure Functions
+  description: |
+    Azure Functions application sample for SORACOM LTE-M button integration.
+    This project demonstrates how to handle SORACOM button events using Azure Functions.
+  tags:
+    - azure-functions
+    - iot
+    - soracom
+    - csharp
+    - lte-m
+  links:
+    - url: https://github.com/tkeydll/soracom-button-azure-functions
+      title: Source Code
+      icon: github
+  annotations:
+    github.com/project-slug: tkeydll/soracom-button-azure-functions
+spec:
+  type: service
+  lifecycle: experimental
+  owner: tkeydll
+  system: iot-platform
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: iot-platform
+  title: IoT Platform
+  description: System for IoT device integrations and event processing
+spec:
+  owner: tkeydll

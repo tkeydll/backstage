@@ -1,0 +1,153 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: azure-web-app-template
+  title: Azure Web App
+  description: Create a new Azure Web App with App Service Plan
+  tags:
+    - azure
+    - web-app
+    - app-service
+    - recommended
+spec:
+  owner: platform-team
+  type: azure-resource
+  
+  parameters:
+    - title: Basic Information
+      required:
+        - name
+        - description
+        - owner
+      properties:
+        name:
+          title: Name
+          type: string
+          description: Unique name for the Web App
+          pattern: '^[a-zA-Z0-9-]+$'
+          maxLength: 60
+        description:
+          title: Description
+          type: string
+          description: Help others understand what this Web App is for
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the component
+          ui:field: OwnerPicker
+          ui:options:
+            catalogFilter:
+              kind: Group
+              
+    - title: Azure Configuration
+      required:
+        - subscriptionId
+        - resourceGroupName
+        - location
+        - appServicePlanTier
+      properties:
+        subscriptionId:
+          title: Azure Subscription ID
+          type: string
+          description: Azure subscription where resources will be created
+          pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        resourceGroupName:
+          title: Resource Group Name
+          type: string
+          description: Azure Resource Group (will be created if it doesn't exist)
+          pattern: '^[a-zA-Z0-9-_().]+$'
+          maxLength: 90
+        location:
+          title: Azure Region
+          type: string
+          description: Azure region where resources will be deployed
+          enum:
+            - eastus
+            - eastus2
+            - westus
+            - westus2
+            - westeurope
+            - northeurope
+            - japaneast
+            - southeastasia
+          enumNames:
+            - East US
+            - East US 2
+            - West US
+            - West US 2
+            - West Europe
+            - North Europe
+            - Japan East
+            - Southeast Asia
+        appServicePlanTier:
+          title: App Service Plan Tier
+          type: string
+          description: Choose the pricing tier for your App Service Plan
+          enum:
+            - F1
+            - B1
+            - B2
+            - S1
+            - S2
+            - P1v2
+            - P2v2
+          enumNames:
+            - Free (F1)
+            - Basic B1
+            - Basic B2
+            - Standard S1
+            - Standard S2
+            - Premium P1v2
+            - Premium P2v2
+          default: F1
+        enableApplicationInsights:
+          title: Enable Application Insights
+          type: boolean
+          description: Enable monitoring and diagnostics for the Web App
+          default: true
+
+  steps:
+    - id: fetch
+      name: Fetch Template
+      action: fetch:template
+      input:
+        url: ./skeleton
+        values:
+          name: ${{ parameters.name }}
+          description: ${{ parameters.description }}
+          owner: ${{ parameters.owner }}
+          subscriptionId: ${{ parameters.subscriptionId }}
+          resourceGroupName: ${{ parameters.resourceGroupName }}
+          location: ${{ parameters.location }}
+          appServicePlanTier: ${{ parameters.appServicePlanTier }}
+          enableApplicationInsights: ${{ parameters.enableApplicationInsights }}
+
+    - id: deploy-azure-resources
+      name: Deploy Azure Resources
+      action: azure:arm:deploy
+      input:
+        subscriptionId: ${{ parameters.subscriptionId }}
+        resourceGroupName: ${{ parameters.resourceGroupName }}
+        deploymentName: ${{ parameters.name }}-deployment-${{ '' | parseTime | date('YmdHis') }}
+        templateFile: azure/template.json
+        parametersFile: azure/parameters.json
+        location: ${{ parameters.location }}
+
+    - id: catalog-register
+      name: Register in Catalog
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.fetch.output.targetDir }}
+        catalogInfoPath: '/catalog-info.yaml'
+
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps.publish.output.repoContentsUrl }}
+      - title: Azure Resource Group
+        url: https://portal.azure.com/#@/resource/subscriptions/${{ parameters.subscriptionId }}/resourceGroups/${{ parameters.resourceGroupName }}
+      - title: Web App
+        url: https://${{ parameters.name }}.azurewebsites.net
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps.catalog-register.output.entityRef }}

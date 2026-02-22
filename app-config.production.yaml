@@ -1,0 +1,27 @@
+app:
+  baseUrl: http://localhost:7007
+
+backend:
+  baseUrl: http://localhost:7007
+  listen:
+    port: 7007
+  auth:
+    keys:
+      - secret: your-secret-key-here
+  database:
+    client: better-sqlite3
+    connection: ':memory:'
+
+auth:
+  providers:
+    github:
+      development:
+        clientId: ${AUTH_GITHUB_CLIENT_ID:-dummy-client-id}
+        clientSecret: ${AUTH_GITHUB_CLIENT_SECRET:-dummy-client-secret}
+    guest:
+      dangerouslyAllowOutsideDevelopment: true
+
+integrations:
+  github:
+    - host: github.com
+      token: ${GITHUB_TOKEN:-dummy-token}

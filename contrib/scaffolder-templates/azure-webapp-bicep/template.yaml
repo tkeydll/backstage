@@ -1,0 +1,82 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: azure-webapp-template
+  title: Azure Web App 作成テンプレート
+  description: Azure App Service (Web App) とリソースグループをデプロイするテンプレートだよ！
+  tags:
+    - azure
+    - bicep
+    - webapp
+spec:
+  owner: user:guest
+  type: service
+
+  parameters:
+    - title: Azure リソースの設定
+      required:
+        - resourceName
+        - location
+      properties:
+        resourceName:
+          title: リソース名
+          type: string
+          description: 作成するWeb Appの名前（グローバルで一意にしてね！）
+          pattern: '^[a-z0-9-]+$'
+        location:
+          title: リージョン (Location)
+          type: string
+          default: japaneast
+          enum:
+            - japaneast
+            - japanwest
+            - eastus
+          enumNames:
+            - 'Japan East (東日本)'
+            - 'Japan West (西日本)'
+            - 'East US (米国東部)'
+
+    - title: リポジトリの設定
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: リポジトリの場所
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+
+  steps:
+    - id: fetch-base
+      name: テンプレートの生成
+      action: fetch:template
+      input:
+        url: ./skeleton
+        values:
+          resourceName: ${{ parameters.resourceName }}
+          location: ${{ parameters.location }}
+
+    - id: publish
+      name: GitHubへプッシュ
+      action: publish:github
+      input:
+        allowedHosts: ['github.com']
+        description: Azure Web App deployment repository for ${{ parameters.resourceName }}
+        repoUrl: ${{ parameters.repoUrl }}
+
+    - id: register
+      name: カタログへ登録
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
+        catalogInfoPath: '/catalog-info.yaml'
+
+  output:
+    links:
+      - title: GitHub リポジトリ
+        url: ${{ steps['publish'].output.remoteUrl }}
+      - title: Backstage カタログ
+        icon: catalog
+        entityRef: ${{ steps['register'].output.entityRef }}

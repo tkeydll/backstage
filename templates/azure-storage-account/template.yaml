@@ -1,0 +1,155 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: azure-storage-account-template
+  title: Azure Storage Account
+  description: Create a new Azure Storage Account with configurable settings
+  tags:
+    - azure
+    - storage
+    - blob
+    - recommended
+spec:
+  owner: platform-team
+  type: azure-resource
+  
+  parameters:
+    - title: Basic Information
+      required:
+        - name
+        - description
+        - owner
+      properties:
+        name:
+          title: Storage Account Name
+          type: string
+          description: Globally unique name for the storage account (3-24 characters, lowercase letters and numbers only)
+          pattern: '^[a-z0-9]{3,24}$'
+          maxLength: 24
+          minLength: 3
+        description:
+          title: Description
+          type: string
+          description: Help others understand what this Storage Account is for
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the component
+          ui:field: OwnerPicker
+          ui:options:
+            catalogFilter:
+              kind: Group
+              
+    - title: Azure Configuration
+      required:
+        - subscriptionId
+        - resourceGroupName
+        - location
+        - accountTier
+        - replication
+      properties:
+        subscriptionId:
+          title: Azure Subscription ID
+          type: string
+          description: Azure subscription where resources will be created
+          pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        resourceGroupName:
+          title: Resource Group Name
+          type: string
+          description: Azure Resource Group (will be created if it doesn't exist)
+          pattern: '^[a-zA-Z0-9-_().]+$'
+          maxLength: 90
+        location:
+          title: Azure Region
+          type: string
+          description: Azure region where storage account will be deployed
+          enum:
+            - eastus
+            - eastus2
+            - westus
+            - westus2
+            - westeurope
+            - northeurope
+            - japaneast
+            - southeastasia
+          enumNames:
+            - East US
+            - East US 2
+            - West US
+            - West US 2
+            - West Europe
+            - North Europe
+            - Japan East
+            - Southeast Asia
+        accountTier:
+          title: Storage Account Performance Tier
+          type: string
+          description: Choose the performance tier for your storage account
+          enum:
+            - Standard
+            - Premium
+          enumNames:
+            - Standard (General purpose)
+            - Premium (High performance)
+          default: Standard
+        replication:
+          title: Replication Type
+          type: string
+          description: Choose the replication strategy for your data
+          enum:
+            - LRS
+            - GRS
+            - RAGRS
+            - ZRS
+          enumNames:
+            - Locally redundant storage (LRS)
+            - Geo-redundant storage (GRS)
+            - Read-access geo-redundant storage (RA-GRS)
+            - Zone-redundant storage (ZRS)
+          default: LRS
+        enableHttpsOnly:
+          title: HTTPS Only
+          type: boolean
+          description: Require secure transfer (HTTPS) for all requests
+          default: true
+        allowBlobPublicAccess:
+          title: Allow Blob Public Access
+          type: boolean
+          description: Allow containers and blobs to be configured for anonymous public read access
+          default: false
+
+  steps:
+    - id: fetch
+      name: Fetch Template
+      action: fetch:template
+      input:
+        url: ./skeleton
+        values:
+          name: ${{ parameters.name }}
+          description: ${{ parameters.description }}
+          owner: ${{ parameters.owner }}
+          subscriptionId: ${{ parameters.subscriptionId }}
+          resourceGroupName: ${{ parameters.resourceGroupName }}
+          location: ${{ parameters.location }}
+          accountTier: ${{ parameters.accountTier }}
+          replication: ${{ parameters.replication }}
+          enableHttpsOnly: ${{ parameters.enableHttpsOnly }}
+          allowBlobPublicAccess: ${{ parameters.allowBlobPublicAccess }}
+
+    - id: deploy-azure-resources
+      name: Deploy Azure Resources
+      action: azure:arm:deploy
+      input:
+        subscriptionId: ${{ parameters.subscriptionId }}
+        resourceGroupName: ${{ parameters.resourceGroupName }}
+        deploymentName: ${{ parameters.name }}-deploy
+        templateFile: azure/template.json
+        parametersFile: azure/parameters.json
+        location: ${{ parameters.location }}
+
+  output:
+    links:
+      - title: Azure Resource Group
+        url: https://portal.azure.com/#@/resource/subscriptions/${{ parameters.subscriptionId }}/resourceGroups/${{ parameters.resourceGroupName }}
+      - title: Storage Account
+        url: https://portal.azure.com/#@/resource/subscriptions/${{ parameters.subscriptionId }}/resourceGroups/${{ parameters.resourceGroupName }}/providers/Microsoft.Storage/storageAccounts/${{ parameters.name }}
