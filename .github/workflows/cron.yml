@@ -1,8 +1,10 @@
 name: Cron
 on:
   workflow_dispatch:
+
+  # daily at 00:00
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '0 0 * * *'
 
 jobs:
   cron:
